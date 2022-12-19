@@ -1,29 +1,22 @@
 #!/usr/bin/python3
-"""factorize given set of numbers in a file to product of two small numbers"""
-from sys import argv
 
+import sys
 
-def factorize(number_to_check):
-    """"find two small numbers that multiply to give a given number"""
-    i = 2
+def factors(n):
+    # return a list of factors of n
+    result = []
+    for i in range(2, n // 2 + 1):
+        if n % i == 0:
+            result.append(i)
+    return result
 
-    if number_to_check < 2:
-        return
-    
-    while number_to_check % i:
-        i += 1
-    print("{:.0f}={:.0f}*{:.0f}".format(number_to_check, number_to_check / i, i))
+# read numbers from the file
+with open(sys.argv[1], 'r') as f:
+    for line in f:
+        n = int(line)
+        # try to factorize n
+        for p in factors(n):
+            q = n // p
+            print(f'{n}={p}*{q}')
+            break
 
-if len(argv) != 2:
-    exit()
-
-try:
-    with open(argv[1]) as file:
-        line = file.readline()
-
-        while line != "":
-            number_to_check = int(line.split('\n')[0])
-            factorize(number_to_check)
-            line = file.readline()
-except:
-    pass
